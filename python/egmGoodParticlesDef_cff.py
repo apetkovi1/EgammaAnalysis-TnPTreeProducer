@@ -69,9 +69,9 @@ def setGoodParticlesMiniAOD(process, options):
                                           vertexCollection = cms.InputTag("offlineSlimmedPrimaryVertices"),
                                           beamSpot         = cms.InputTag("offlineBeamSpot"),
                                           conversions      = cms.InputTag("reducedEgamma:reducedConversions"),
-                                          pfCandidates     = cms.InputTag("packedPFCandidates"),
-                                          ebRecHits        = cms.InputTag("reducedEgamma","reducedEBRecHits","PAT"),
-                                          eeRecHits        = cms.InputTag("reducedEgamma","reducedEERecHits","PAT")
+                                          pfCandidates     = cms.InputTag("packedPFCandidates")
+                                          #ebRecHits        = cms.InputTag("reducedEgamma","reducedEBRecHits","PAT"),
+                                          #eeRecHits        = cms.InputTag("reducedEgamma","reducedEERecHits","PAT")
                                           )
 
     ####################  Electron collection
@@ -117,9 +117,9 @@ def setGoodParticlesAOD(process, options):
                                           l1EGColl         = cms.InputTag("caloStage2Digis:EGamma"),
                                           beamSpot         = cms.InputTag("offlineBeamSpot"),
                                           conversions      = cms.InputTag("allConversions"),
-                                          pfCandidates     = cms.InputTag("particleFlow"),
-                                          ebRecHits        = cms.InputTag("reducedEcalRecHitsEB","","RECO"),
-                                          eeRecHits        = cms.InputTag("reducedEcalRecHitsEE","","RECO")
+                                          pfCandidates     = cms.InputTag("particleFlow")
+                                          #ebRecHits        = cms.InputTag("reducedEcalRecHitsEB","","RECO"),
+                                          #eeRecHits        = cms.InputTag("reducedEcalRecHitsEE","","RECO")
                                           )
 
     process.hltVarHelper = cms.EDProducer("GsfElectronHLTVariableHelper",

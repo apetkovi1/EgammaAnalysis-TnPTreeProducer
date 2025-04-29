@@ -58,8 +58,8 @@ private:
   edm::EDGetTokenT<reco::ConversionCollection> conversionsToken_;
   edm::EDGetTokenT<reco::BeamSpot> beamSpotToken_;
   edm::EDGetTokenT<edm::View<reco::Candidate>> pfCandidatesToken_;
-  edm::EDGetTokenT<EcalRecHitCollection> recHitsEBToken_;
-  edm::EDGetTokenT<EcalRecHitCollection> recHitsEEToken_;
+  //edm::EDGetTokenT<EcalRecHitCollection> recHitsEBToken_;
+  //edm::EDGetTokenT<EcalRecHitCollection> recHitsEEToken_;
 
   bool isMiniAODformat;
 };
@@ -71,9 +71,9 @@ ElectronVariableHelper<T>::ElectronVariableHelper(const edm::ParameterSet & iCon
   l1EGToken_(consumes<BXVector<l1t::EGamma> >(iConfig.getParameter<edm::InputTag>("l1EGColl"))),
   conversionsToken_(consumes<reco::ConversionCollection>(iConfig.getParameter<edm::InputTag>("conversions"))),
   beamSpotToken_(consumes<reco::BeamSpot>(iConfig.getParameter<edm::InputTag>("beamSpot"))),
-  pfCandidatesToken_(consumes<edm::View<reco::Candidate>>(iConfig.getParameter<edm::InputTag>("pfCandidates"))),
-  recHitsEBToken_(consumes<EcalRecHitCollection>(iConfig.getParameter<edm::InputTag>("ebRecHits"))),
-  recHitsEEToken_(consumes<EcalRecHitCollection>(iConfig.getParameter<edm::InputTag>("eeRecHits")))
+  pfCandidatesToken_(consumes<edm::View<reco::Candidate>>(iConfig.getParameter<edm::InputTag>("pfCandidates")))
+  //recHitsEBToken_(consumes<EcalRecHitCollection>(iConfig.getParameter<edm::InputTag>("ebRecHits"))),
+  //recHitsEEToken_(consumes<EcalRecHitCollection>(iConfig.getParameter<edm::InputTag>("eeRecHits")))
 {
 
   produces<edm::ValueMap<float>>("dz");
@@ -150,8 +150,8 @@ void ElectronVariableHelper<T>::produce(edm::Event & iEvent, const edm::EventSet
 
   std::vector<float> seedGains; // seed gain for scales
 
-  const auto& recHitsEBProd = iEvent.get(recHitsEBToken_);
-  const auto& recHitsEEProd = iEvent.get(recHitsEEToken_);
+  //const auto& recHitsEBProd = iEvent.get(recHitsEBToken_);
+  //const auto& recHitsEEProd = iEvent.get(recHitsEEToken_);
 
   typename std::vector<T>::const_iterator probe, endprobes = probes->end();
 
@@ -259,14 +259,14 @@ void ElectronVariableHelper<T>::produce(edm::Event & iEvent, const edm::EventSet
 
     // seed gain loop
 
-    auto detid = probe->superCluster()->seed()->seed();
-    const auto& coll = probe->isEB() ? recHitsEBProd : recHitsEEProd;
-    auto seed = coll.find(detid);
+    //auto detid = probe->superCluster()->seed()->seed();
+    //const auto& coll = probe->isEB() ? recHitsEBProd : recHitsEEProd;
+    //auto seed = coll.find(detid);
     float tmpSeedVal = 12.0;
-    if (seed != coll.end()){
+    /*if (seed != coll.end()){
         if (seed->checkFlag(EcalRecHit::kHasSwitchToGain6)) tmpSeedVal = 6.0;
         if (seed->checkFlag(EcalRecHit::kHasSwitchToGain1)) tmpSeedVal = 1.0;
-    }
+    }*/
     seedGains.push_back(tmpSeedVal);
   }
 

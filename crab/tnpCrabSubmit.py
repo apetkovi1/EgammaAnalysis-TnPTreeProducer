@@ -4,17 +4,18 @@ import os
 #
 # Example script to submit TnPTreeProducer to crab
 #
-submitVersion = "2024-01-08" # add some date here
+submitVersion = "2024-26-02-MC" # add some date here
 doL1matching  = False
 isAOD = False
 
-defaultArgs   = ['doEleID=True','doPhoID=True','doTrigger=True']
+defaultArgs   = ['doEleID=True']   #Add here isMC=True if want MC
 AODArgs     = ['isAOD=True','doRECO=True']
-mainOutputDir = '/store/group/phys_egamma/ec/tnpTuples/Prompt2023/%s' % (submitVersion)
+#mainOutputDir = '/eos/user/a/anpetkov/TnPtuples/%s' % (submitVersion)
+mainOutputDir = 'TnPtuples22_ReReco22Sep2023'
 
 # Logging the current version of TnpTreeProducer here, such that you can find back what the actual code looked like when you were submitting
-os.system('mkdir -p /eos/cms/%s' % mainOutputDir)
-os.system('(git log -n 1;git diff) &> /eos/cms/%s/git.log' % mainOutputDir)
+#os.system('mkdir -p /eos/cms/%s' % mainOutputDir)
+#os.system('(git log -n 1;git diff) &> /eos/cms/%s/git.log' % mainOutputDir)
 
 
 #
@@ -36,7 +37,8 @@ config.Data.inputDataset               = ''
 config.Data.inputDBS                   = 'global'
 config.Data.publication                = False
 config.Data.allowNonValidInputDataset  = True
-config.Site.storageSite                = 'T2_CH_CERN'
+#config.Site.storageSite                = 'T2_CH_CERN'
+config.Site.storageSite                = 'T3_CH_CERNBOX'
 
 
 #
@@ -66,7 +68,8 @@ def submit(config, requestName, sample, era, json, extraParam=[]):
   isMC                        = 'SIM' in sample
   config.General.requestName  = '%s_%s' % (era, requestName)
   config.Data.inputDataset    = sample
-  config.Data.outLFNDirBase   = '%s/%s/%s/' % (mainOutputDir, era, 'mc' if isMC else 'data')
+  #config.Data.outLFNDirBase   = '%s/%s/%s/' % (mainOutputDir, era, 'mc' if isMC else 'data')
+  config.Data.outputDatasetTag = mainOutputDir
   config.Data.splitting       = 'FileBased' if isMC else 'LumiBased'
   config.Data.lumiMask        = None if isMC else json
   config.Data.unitsPerJob     = 5 if isMC else 25
@@ -107,6 +110,7 @@ def submitWrapper(requestName, sample, era, extraParam=[]):
 #from EgammaAnalysis.TnPTreeProducer.cmssw_version import isReleaseAbove
 #if isReleaseAbove(13,0):
 
+'''
 eraData       = '2023'
 eraMCpreBPIX  = '2023preBPIX'
 eraMCpostBPIX = '2023postBPIX'
@@ -129,6 +133,28 @@ submitWrapper('DY_NLO_preBPIX', '/DYto2L-2Jets_MLL-50_TuneCP5_13p6TeV_amcatnloFX
 submitWrapper('DY_LO_postBPIX', '/DYto2L-4Jets_MLL-50_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Summer23BPixMiniAODv4-130X_mcRun3_2023_realistic_postBPix_v2-v3/MINIAODSIM', eraMCpostBPIX)
 submitWrapper('DY_NLO_postBPIX', '/DYto2L-2Jets_MLL-50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/Run3Summer23BPixMiniAODv4-130X_mcRun3_2023_realistic_postBPix_v2-v3/MINIAODSIM', eraMCpostBPIX)
 
+'''
+
+eraData    = '2022'
+eraMCpreEE  = '2022preEE'
+eraMCpostEE = '2022postEE'
+
+#submitWrapper('Run2022A_v1', '/EGamma/Run2022A-10Dec2022-v1/MINIAOD', eraData)
+#submitWrapper('Run2022B_v1', '/EGamma/Run2022B-10Dec2022-v1/MINIAOD', eraData)
+#I am not submitting jobs for runs A,B because they correspond to 900 GeV and comissioning
+#submitWrapper('Run2022C_v1', '/EGamma/Run2022C-22Sep2023-v1/MINIAOD', eraData)
+#submitWrapper('Run2022D_v1', '/EGamma/Run2022D-22Sep2023-v1/MINIAOD', eraData)
+#submitWrapper('Run2022E_v1', '/EGamma/Run2022E-22Sep2023-v1/MINIAOD', eraData)
+#submitWrapper('Run2022F_v1', '/EGamma/Run2022F-22Sep2023-v1/MINIAOD', eraData)
+#submitWrapper('Run2022G_v2', '/EGamma/Run2022G-22Sep2023-v2/MINIAOD', eraData)
+
+
+submitWrapper('DY_LO_preEE', '/DYto2E_M-50_NNPDF31_TuneCP5_13p6TeV-powheg-pythia8/Run3Summer22MiniAODv4-130X_mcRun3_2022_realistic_v5-v2/MINIAODSIM', eraMCpreEE)
+#submitWrapper('DY_NLO_preEE', '/DYto2L-2Jets_MLL-50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/Run3Summer22MiniAODv4-130X_mcRun3_2022_realistic_v5-v2/MINIAODSIM', eraMCpreEE)
+submitWrapper('DY_LO_postEE', '/DYto2E_M-50_NNPDF31_TuneCP5_13p6TeV-powheg-pythia8/Run3Summer22EEMiniAODv4-130X_mcRun3_2022_realistic_postEE_v6-v2/MINIAODSIM', eraMCpostEE)
+#submitWrapper('DY_NLO_postEE', '/DYto2L-2Jets_MLL-50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/Run3Summer22EEMiniAODv4-130X_mcRun3_2022_realistic_postEE_v6-v2/MINIAODSIM', eraMCpostEE)
+
+
 if isAOD:  #AOD files
   
   submitWrapper('Run2023C_0v1_AOD', '/EGamma0/Run2023C-PromptReco-v1/AOD', eraData)
@@ -145,7 +171,7 @@ if isAOD:  #AOD files
   submitWrapper('Run2023D_1v1_AOD', '/EGamma1/Run2023D-PromptReco-v1/AOD', eraData)
   submitWrapper('Run2023D_1v2_AOD', '/EGamma1/Run2023D-PromptReco-v2/AOD', eraData)
   
-  submitWrapper('DY_LO_AODSIM_preBPIX', '/DYto2L-4Jets_MLL-50_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Summer23DRPremix-130X_mcRun3_2023_realistic_v14-v1/AODSIM', eraMCpreBPIX)
-  submitWrapper('DY_NLO_AODSIM_preBPIX', '/DYto2L-2Jets_MLL-50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/Run3Summer23DRPremix-130X_mcRun3_2023_realistic_v14-v1/AODSIM', eraMCpreBPIX)
-  submitWrapper('DY_LO_AODSIM_postBPIX', '/DYto2L-4Jets_MLL-50_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Summer23BPixDRPremix-130X_mcRun3_2023_realistic_postBPix_v2-v3/AODSIM', eraMCpostBPIX)
-  submitWrapper('DY_NLO_AODSIM_postBPIX', '/DYto2L-2Jets_MLL-50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/Run3Summer23BPixDRPremix-130X_mcRun3_2023_realistic_postBPix_v2-v3/AODSIM', eraMCpostBPIX)
+  submitWrapper('DY_LO_AODSIM_preBPIX', '/DYto2L-4Jets_MLL-50_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Summer23DRPremix-130X_mcRun3_2023_realistic_v14-v1/AODSIM', eraMCpreEE)
+  submitWrapper('DY_NLO_AODSIM_preBPIX', '/DYto2L-2Jets_MLL-50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/Run3Summer23DRPremix-130X_mcRun3_2023_realistic_v14-v1/AODSIM', eraMCpreEE)
+  submitWrapper('DY_LO_AODSIM_postBPIX', '/DYto2L-4Jets_MLL-50_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Summer23BPixDRPremix-130X_mcRun3_2023_realistic_postBPix_v2-v3/AODSIM', eraMCpostEE)
+  submitWrapper('DY_NLO_AODSIM_postBPIX', '/DYto2L-2Jets_MLL-50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/Run3Summer23BPixDRPremix-130X_mcRun3_2023_realistic_postBPix_v2-v3/AODSIM', eraMCpostEE)

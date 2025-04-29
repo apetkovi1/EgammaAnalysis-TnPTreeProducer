@@ -24,7 +24,8 @@ def setIDs(process, options):
         #'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V2_cff',
         'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_RunIIIWinter22_iso_V1_cff',
         'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_RunIIIWinter22_noIso_V1_cff',
-        'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Winter22_122X_V1_cff'
+        'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Winter22_122X_V1_cff',
+        'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Summer18UL_ID_ISO_cff'
        ]
 
     ### add only miniAOD supported IDs
@@ -98,7 +99,8 @@ def setIDs(process, options):
       addNewProbeModule(probeSequence, 'MVA122X%snoisoV1' %wp, 'egmGsfElectronIDs:mvaEleID-RunIIIWinter22-noIso-V1-%s' % wp)
       addNewProbeModule(probeSequence, 'MVA122X%sisoV1' %wp, 'egmGsfElectronIDs:mvaEleID-RunIIIWinter22-iso-V1-%s' % wp)
 
-    #addNewProbeModule(probeSequence, 'MVA94XwpHZZisoV2', 'egmGsfElectronIDs:mvaEleID-Fall17-iso-V2-wpHZZ')
+    #addNewProbeModule(probeSequence, 'MVASummer18ULwpHZZ', 'egmGsfElectronIDs:mvaEleID-Fall17-iso-V2-wpHZZ')
+    addNewProbeModule(probeSequence, 'MVASummer18ULwpHZZ', 'egmGsfElectronIDs:mvaEleID-Summer18UL-ID-ISO-HZZ') 
 
 
 

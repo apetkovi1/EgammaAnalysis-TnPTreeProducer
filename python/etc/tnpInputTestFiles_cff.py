@@ -8,7 +8,8 @@ filesMiniAOD_2018 = {
 }
 
 filesMiniAOD_2022 = {
-    'mc' :   cms.untracked.vstring(''),
+    'mc' :   cms.untracked.vstring('root://cmsxrootd.fnal.gov//store/mc/Run3Summer22MiniAODv4/DYto2L-4Jets_MLL-50_TuneCP5_13p6TeV_madgraphMLM-pythia8/MINIAODSIM/130X_mcRun3_2022_realistic_v5-v2/2520000/017afd05-e111-41dc-9802-86e708952417.root'),
+    #'data' : cms.untracked.vstring('root://cmsxrootd.fnal.gov//store/data/Run2022B/EGamma/MINIAOD/10Dec2022-v1/2820000/00ca2351-c1c1-4066-b088-0079e861b29a.root'),
     'data' : cms.untracked.vstring('root://cmsxrootd.fnal.gov//store/data/Run2022B/EGamma/MINIAOD/PromptReco-v1/000/355/558/00000/92629520-53fb-4f1d-8465-a15b5504e149.root'),
 }
 
